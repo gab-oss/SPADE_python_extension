@@ -7,7 +7,12 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "edami", "PythonApplication1
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "superfastcode", "superfastcode\superfastcode.vcxproj", "{28B0FA83-2FD8-468B-B4E3-54995A926B11}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "superfastcode2", "superfastcode2\superfastcode2.vcxproj", "{7231669E-7124-4EA7-A5F4-F7B24609D033}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "spade", "superfastcode2\superfastcode2.vcxproj", "{7231669E-7124-4EA7-A5F4-F7B24609D033}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4A2D66F4-55BC-47AF-9F69-61B73162622A}"
+	ProjectSection(SolutionItems) = preProject
+		data\dress_sales.csv = data\dress_sales.csv
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

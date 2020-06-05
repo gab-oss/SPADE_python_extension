@@ -1,38 +1,35 @@
-from itertools import islice
-from random import random
-from time import perf_counter
+import csv
 
-COUNT = 500000  # Change this value depending on the speed of your computer
-DATA = list(islice(iter(lambda: (random() - 0.5) * 3.0, None), COUNT))
+from spade import frequent_patterns_search
 
-e = 2.7182818284590452353602874713527
+#Your data needs to be in a particular format similar to the following:
 
-def sinh(x):
-    return (1 - (e ** (-2 * x))) / (2 * (e ** -x))
+# 1 1 3 8 37 42
+# 1 2 4 4 11 37 42
+# 2 1 2 10 73
+# 2 2 1 72
+# 2 3 3 4 24 77 
 
-def cosh(x):
-    return (1 + (e ** (-2 * x))) / (2 * (e ** -x))
+# where numbers are:
+# sequence id, event id, number of items, items
 
-def tanh(x):
-    tanh_x = sinh(x) / cosh(x)
-    return tanh_x
+def prepare_dress_sales_dataset():
+    with open('../data/processed_dress_sales', 'a') as processed_file:
+        with open('../data/dress_sales.csv', 'r') as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=';')
+            dates = []
+            line_count = 0
+            for row in csv_reader:
+                if line_count == 0:
+                    dates = row[1:24]
+                    line_count += 1
+                else:
+                    item_id = row[0]
+                    item_sales_records = row[1:24]
+                    for i in range(len(dates)):
+                        processed_file.write(item_id + ' ' + dates[i] + ' 1 ' + item_sales_records[i] + '\n')
 
-def test(fn, name):
-    start = perf_counter()
-    result = fn(DATA)
-    duration = perf_counter() - start
-    print('{} took {:.3f} seconds\n\n'.format(name, duration))
-
-    for d in result:
-        assert -1 <= d <= 1, " incorrect values"
 
 if __name__ == "__main__":
-    print('Running benchmarks with COUNT = {}'.format(COUNT))
-
-    test(lambda d: [tanh(x) for x in d], '[tanh(x) for x in d] (Python implementation)')
-
-from superfastcode import fast_tanh
-test(lambda d: [fast_tanh(x) for x in d], '[fast_tanh(x) for x in d] (CPython C++ extension)')
-
-from superfastcode2 import fast_tanh2
-test(lambda d: [fast_tanh2(x) for x in d], '[fast_tanh2(x) for x in d] (PyBind11 C++ extension)')
+    prepare_dress_sales_dataset()
+    frequent_patterns_search('../data/processed_dress_sales')

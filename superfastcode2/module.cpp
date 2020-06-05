@@ -1,25 +1,42 @@
 #include <Windows.h>
-#include <cmath>
 #include <pybind11/pybind11.h>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include "Event.h"
 
-const double e = 2.7182818284590452353602874713527;
 
-double sinh_impl(double x) {
-    return (1 - pow(e, (-2 * x))) / (2 * pow(e, -x));
-}
+void frequent_patterns_search(std::string filepath) {
 
-double cosh_impl(double x) {
-    return (1 + pow(e, (-2 * x))) / (2 * pow(e, -x));
-}
-
-double tanh_impl(double x) {
-    return sinh_impl(x) / cosh_impl(x);
+    std::string line;
+    std::ifstream myfile(filepath);
+    std::list<Event*> events; // DANE
+    if (myfile.is_open())
+    {
+        while (std::getline(myfile, line))
+        {
+            std::stringstream lineStream(line);
+            int seqId, numItems, item;
+            std::string eventId; // convertion to unix time (int)?
+            std::list<int> items;
+            lineStream >> seqId;
+            lineStream >> eventId;
+            lineStream >> numItems;
+            for (int i = 0; i < numItems; ++i) {
+                lineStream >> item;
+                items.push_back(item);
+            }
+            events.push_back(new Event(seqId, eventId, items)); 
+        } 
+        myfile.close();
+    }
+    else std::cout << "Unable to open file"; // should throw
 }
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(superfastcode2, m) {
-    m.def("fast_tanh2", &tanh_impl, R"pbdoc(
+PYBIND11_MODULE(spade, m) {
+    m.def("frequent_patterns_search", &frequent_patterns_search, R"pbdoc(
         Compute a hyperbolic tangent of a single argument expressed in radians.
     )pbdoc");
 
