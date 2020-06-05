@@ -30,6 +30,8 @@ def prepare_dress_sales_dataset():
                         processed_file.write(item_id + ' ' + dates[i] + ' 1 ' + item_sales_records[i] + '\n')
 
 
+
+
 if __name__ == "__main__":
     prepare_dress_sales_dataset()
     frequent_patterns_search('../data/processed_dress_sales')

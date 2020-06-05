@@ -7,7 +7,8 @@
 
 
 void frequent_patterns_search(std::string filepath) {
-
+    // load file to a list of Event objects
+    // eventually should only contain algorithm's main function call with loading moved to SequenceDatabase > loadFile(...) (?)
     std::string line;
     std::ifstream myfile(filepath);
     std::list<Event*> events; // DANE
