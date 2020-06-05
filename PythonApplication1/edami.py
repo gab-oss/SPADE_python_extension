@@ -34,4 +34,4 @@ def prepare_dress_sales_dataset():
 
 if __name__ == "__main__":
     prepare_dress_sales_dataset()
-    frequent_patterns_search('../data/processed_dress_sales')
+    frequent_patterns_search('../data/processed_dress_sales', 5)

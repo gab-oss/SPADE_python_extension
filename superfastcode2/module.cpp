@@ -3,35 +3,12 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "Event.h"
+#include "Spade.h"
 
-
-void frequent_patterns_search(std::string filepath) {
-    // load file to a list of Event objects
-    // eventually should only contain algorithm's main function call with loading moved to SequenceDatabase > loadFile(...) (?)
-    std::string line;
-    std::ifstream myfile(filepath);
-    std::list<Event*> events; // DANE
-    if (myfile.is_open())
-    {
-        while (std::getline(myfile, line))
-        {
-            std::stringstream lineStream(line);
-            int seqId, numItems, item;
-            std::string eventId; // convertion to unix time (int)?
-            std::list<int> items;
-            lineStream >> seqId;
-            lineStream >> eventId;
-            lineStream >> numItems;
-            for (int i = 0; i < numItems; ++i) {
-                lineStream >> item;
-                items.push_back(item);
-            }
-            events.push_back(new Event(seqId, eventId, items)); 
-        } 
-        myfile.close();
-    }
-    else std::cout << "Unable to open file"; // should throw
+void frequent_patterns_search(std::string filepath, int minSupport) {
+	auto *spade = new Spade();
+	spade->run(filepath, minSupport);
+	spade->printResults();
 }
 
 namespace py = pybind11;
