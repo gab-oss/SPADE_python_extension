@@ -40,7 +40,7 @@ void FrequentPatternEnumeration::execute(EquivalenceClass *eq, bool depthFirst,
                 continue;
             }
 
-            std::vector<Pattern *> *extensions = candidateGenerator->generateCandidates((*it)->getClassIdentifier(), (*jt)->getClassIdentifier(),
+            auto *extensions = candidateGenerator->generateCandidates((*it)->getClassIdentifier(), (*jt)->getClassIdentifier(),
                                                                                       minSupport, doNotExploreXY, doNotExploreYX, doNotExploreX_Y, doNotExploreY_X);
             for (auto &extension : *extensions) {
                 IdList *newIdList = candidateGenerator->join(extension, *it, *jt, minSupport);
@@ -48,9 +48,10 @@ void FrequentPatternEnumeration::execute(EquivalenceClass *eq, bool depthFirst,
                 if(newIdList != nullptr && newIdList->getSupport() >= minSupport) {
                     anyPatternCreated = true;
                     newIdList->setAppearingSequences(extension);
+					frequentPatterns->push_back(extension);
                     auto *newEq = new EquivalenceClass(extension);
                     newEq->setIdList(newIdList);
-                    frequentPatterns++;
+                    frequentPatternCount++;
                 }
             }
         }
