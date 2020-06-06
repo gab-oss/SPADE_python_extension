@@ -16,7 +16,7 @@ class Spade {
     int joinCount;
 
 public:
-    void run(std::string filepath, int sup);
+    void run(std::string filepath, double sup);
 
     void printResults() {
         std::cout << "frequentPatternCount:" << frequentPatternCount << std::endl;

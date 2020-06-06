@@ -3,9 +3,9 @@
 #include "FrequentPatternEnumeration.h"
 #include "SequenceDatabase.h"
 
-void Spade::run(std::string filepath, int sup) {
+void Spade::run(std::string filepath, double sup) {
     auto *db = new SequenceDatabase();
-    db->loadFile(filepath, 0.1);
+    db->loadFile(filepath, sup);
 
     frequentItems = db->getFrequentItems();
     auto *patterns = getPatterns(frequentItems);
@@ -15,7 +15,7 @@ void Spade::run(std::string filepath, int sup) {
         rootClass->addMember(frequentItem);
     }
 
-    auto frequentPatternEnumeration = new FrequentPatternEnumeration(new CandidateGenerator(), sup);
+    auto frequentPatternEnumeration = new FrequentPatternEnumeration(new CandidateGenerator(), db->getAbsSupport(sup));
     frequentPatternEnumeration->setFrequentPatterns(frequentItems->size());
     frequentPatternEnumeration->execute(rootClass, true, nullptr, nullptr);
 

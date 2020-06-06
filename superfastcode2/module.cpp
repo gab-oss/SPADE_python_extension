@@ -5,7 +5,7 @@
 #include <sstream>
 #include "Spade.h"
 
-void frequent_patterns_search(std::string filepath, int minSupport) {
+void frequent_patterns_search(std::string filepath, double minSupport) {
 	auto *spade = new Spade();
 	spade->run(filepath, minSupport);
 	spade->printResults();

@@ -24,6 +24,10 @@ public:
     }
 
     void reduceDatabase(std::vector<Item*> *items);
+
+	int getAbsSupport(double relSupport) {
+		return (int)(sequences->size() * relSupport);
+	}
 };
 
 

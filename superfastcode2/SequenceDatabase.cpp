@@ -34,17 +34,21 @@ void SequenceDatabase::loadFile(std::string path, double minSupport) {
 	}
 	else std::cout << "Unable to open file"; // should throw
 	*/
-	addSequence("a", new std::map<long, std::vector<int>*>({ {10, new std::vector<int>({2,2,2,4})},
-															{15, new std::vector<int>({1,2,2,4})} }));
-	addSequence("b", new std::map<long, std::vector<int>*>({ {15, new std::vector<int>({3,4,4})} }));
-	addSequence("c", new std::map<long, std::vector<int>*>({ {10, new std::vector<int>({3,1,4})}, 
-															{20, new std::vector<int>({2,5,4}) }}));
+	addSequence("a", new std::map<long, std::vector<int>*>({ {1, new std::vector<int>({8,37,42})},
+															{2, new std::vector<int>({4,11,37,42})} 
+		}));
+	addSequence("b", new std::map<long, std::vector<int>*>({ {1, new std::vector<int>({10,73})},
+															{2, new std::vector<int>({72})},
+															{3, new std::vector<int>({4,24,77})}
+		}));
+	//addSequence("c", new std::map<long, std::vector<int>*>({ {10, new std::vector<int>({3,1,4})}, 
+	//														{20, new std::vector<int>({2,5,4}) }}));
 
-    //double support = minSupport * sequences->size();
+    double support = minSupport * sequences->size();
 
     auto *itemsToRemove = new std::vector<Item*>;
     for(auto& pair : *frequentItems) {
-        if(pair.second->getIdList()->getSupport() < minSupport) {	//prev support
+        if(pair.second->getIdList()->getSupport() < support) {
             itemsToRemove->push_back(pair.first);
         } else {
             pair.second->getIdList()->setAppearingSequences(pair.second->getClassIdentifier());
