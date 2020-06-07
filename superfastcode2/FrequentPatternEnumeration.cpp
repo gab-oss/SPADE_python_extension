@@ -1,4 +1,5 @@
 #include "FrequentPatternEnumeration.h"
+#include <iostream>
 
 void FrequentPatternEnumeration::execute(EquivalenceClass *eq, bool depthFirst,
                                          std::map<int, std::map<int, int>> *coocMapAfter,
@@ -52,6 +53,8 @@ void FrequentPatternEnumeration::execute(EquivalenceClass *eq, bool depthFirst,
                     auto *newEq = new EquivalenceClass(extension);
                     newEq->setIdList(newIdList);
                     frequentPatternCount++;
+					std::cout << newIdList->getSupport() << std::endl;
+					insertClassByPrefix(newEq, *it, *jt);
                 }
             }
         }

@@ -5,14 +5,24 @@ std::vector<Pattern *> *CandidateGenerator::generateCandidates(Pattern *p1, Patt
                                                                bool doNotExploreX_Y, bool doNotExploreY_X) {
     auto *candidates = new std::vector<Pattern *>;
     auto *joinBitmap = new std::vector<bool>(*(p1->getAppearingIn()));
-    if (joinBitmap->size() >= minSupport) {
+
+	for (int i = 0; i < joinBitmap->size(); i++) {
+		if (p2->getAppearingIn()->size() <= i) {
+			joinBitmap->at(i) = false;
+		}
+		else {
+			joinBitmap->at(i) = joinBitmap->at(i) && p2->getAppearingIn()->at(i);
+		}
+	}
+
+    if (std::count(joinBitmap->begin(), joinBitmap->end(), true) >= minSupport) {
         auto p1Last = p1->getLastElement();
         auto p2Last = p2->getLastElement();
         auto p1LastRel = p1Last->isEqualRelation();
         auto p2LastRel = p2Last->isEqualRelation();
 
-        if (p1LastRel && !p2LastRel) {
-            if (p1Last->getId() == p2Last->getId()) {
+        if (!p1LastRel && !p2LastRel) {
+            if (p1Last->getId() != p2Last->getId()) {
                 Pattern *candEqRel = nullptr;
                 if (p1->compareTo(p2) < 0 && !doNotExploreXY) {
                     candEqRel = p1->clonePattern();
@@ -43,7 +53,7 @@ std::vector<Pattern *> *CandidateGenerator::generateCandidates(Pattern *p1, Patt
                 candEqRel = p1->clonePattern();
                 candEqRel->add(new Item(p2Last->getId(), true));
                 candidates->push_back(candEqRel);
-            } else if (p1->compareTo(p2) < 0 && !doNotExploreYX) {
+            } else if (p1->compareTo(p2) > 0 && !doNotExploreYX) {
                 candEqRel = p2->clonePattern();
                 candEqRel->add(new Item(p1Last->getId(), true));
                 candidates->push_back(candEqRel);
@@ -72,7 +82,7 @@ IdList *CandidateGenerator::join(Pattern *extension, EquivalenceClass *e1, Equiv
     Item *lastFromEq = e2->getClassIdentifier()->getLastElement();
 
     if (last->isEqualRelation()) {
-        if (lastButOne == last)
+        if (lastButOne != last)
             return e1->getIdList()->join(e2->getIdList(), true, minSupport);
 
     } else {

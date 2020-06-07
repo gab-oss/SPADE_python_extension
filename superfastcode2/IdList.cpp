@@ -1,8 +1,9 @@
 #include "IdList.h"
+#include <iostream>
 
 IdList *IdList::join(IdList *idList, bool equals, int minSupport) {
     auto *intersection = new std::map<int, std::vector<int>*>();
-    auto *newSequences = new std::vector<bool>;
+    auto *newSequences = new std::vector<bool>(idList->getSupport());
 
     for(auto& entry : *idList->entries) {
         std::vector<int> *transAppereances = nullptr;
@@ -13,7 +14,7 @@ IdList *IdList::join(IdList *idList, bool equals, int minSupport) {
         }
 
         if(transAppereances != nullptr) {
-            intersection->emplace(entry.first, transAppereances);
+			intersection->insert({ entry.first, transAppereances });
             if(newSequences->size() <= entry.first) {
                 int size = entry.first - newSequences->size() + 1;
                 for(int i = 0; i < size; i++) {
@@ -23,12 +24,20 @@ IdList *IdList::join(IdList *idList, bool equals, int minSupport) {
             newSequences->at(entry.first) = true;
         }
     }
+	for (auto &i : *intersection) {
+		for (auto j : *i.second) {
+			std::cout << j << ",";
+		}
+		std::cout << " | ";
+	}
+	std::cout << std::endl;
+
     auto output = new IdList(intersection);
     output->sequences = newSequences;
     return output;
 }
 
-std::vector<int> *IdList::equalOperation(int sid, std::vector<int> *transAppereances) {
+std::vector<int> *IdList::laterOperation(int sid, std::vector<int> *transAppereances) {
     if(entries->find(sid) == entries->end() || entries->at(sid)->empty())
         return nullptr;
     auto transAppearOfIdList = entries->at(sid);
@@ -53,10 +62,10 @@ std::vector<int> *IdList::equalOperation(int sid, std::vector<int> *transApperea
     return  result;
 }
 
-std::vector<int> *IdList::laterOperation(int sid, std::vector<int> *transAppereances) {
+std::vector<int> *IdList::equalOperation(int sid, std::vector<int> *transAppereances) {
     if(entries->find(sid) == entries->end() || entries->at(sid)->empty())
         return nullptr;
-    auto transAppearOfIdList = entries->at(sid);
+    auto *transAppearOfIdList = entries->at(sid);
     auto result = new std::vector<int>();
     int idx = 0;
     std::vector<int> *exploreVec, *searchVec;
@@ -78,7 +87,7 @@ std::vector<int> *IdList::laterOperation(int sid, std::vector<int> *transApperea
             if(comp >= 0) {
                 if(comp == 0) {
                     result->push_back(eid);
-                    idx = ++i;
+                    idx = i + 1;
                 }
                 break;
             }
