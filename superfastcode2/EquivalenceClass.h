@@ -1,7 +1,7 @@
 #ifndef SPADE_EQUIVALENCECLASS_H
 #define SPADE_EQUIVALENCECLASS_H
 
-#include <list>
+#include <deque>
 #include "Pattern.h"
 #include "IdList.h"
 
@@ -9,10 +9,10 @@ class EquivalenceClass {
 
     Pattern *classId;
     IdList *idList;
-    std::list<EquivalenceClass *> *members = new std::list<EquivalenceClass *>;
+    std::deque<EquivalenceClass *> *members = new std::deque<EquivalenceClass *>;
 public:
     explicit EquivalenceClass(Pattern *classId = nullptr, IdList *idList = nullptr,
-                     std::list<EquivalenceClass *> *members = new std::list<EquivalenceClass *>) : classId(classId), idList(idList),
+                     std::deque<EquivalenceClass *> *members = new std::deque<EquivalenceClass *>) : classId(classId), idList(idList),
                                                                          members(members) {}
 
     void addMember(EquivalenceClass *eqClass) { members->push_back(eqClass); }
@@ -23,7 +23,7 @@ public:
 
     Pattern *getClassIdentifier() const { return classId; }
 
-    std::list<EquivalenceClass *> *getClassMembers() const { return members; }
+    std::deque<EquivalenceClass *> *getClassMembers() const { return members; }
 };
 
 

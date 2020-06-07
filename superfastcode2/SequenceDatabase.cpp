@@ -45,6 +45,7 @@ void SequenceDatabase::loadFile(std::string path, double minSupport) {
 	//														{20, new std::vector<int>({2,5,4}) }}));
 
     double support = minSupport * sequences->size();
+    if(support < 1) support = 1;
 
     auto *itemsToRemove = new std::vector<Item*>;
     for(auto& pair : *frequentItems) {
@@ -75,7 +76,7 @@ void SequenceDatabase::addSequence(std::string seqId, std::map<long, std::vector
             if (ec == nullptr) {
                 idList = new IdList();
                 auto *item = new Item(id, false);
-                ec = new EquivalenceClass(new Pattern(new std::vector<Item*>({item})), idList);
+                ec = new EquivalenceClass(new Pattern(new std::vector<Item*>{item}), idList);
                 frequentItems->insert({item, ec});
             }
             idList = ec->getIdList();

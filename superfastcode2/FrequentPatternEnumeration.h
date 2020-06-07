@@ -34,7 +34,7 @@ public:
         return joinCount;
     }
 
-    void execute(EquivalenceClass *eq, bool depthFirst, std::map<int, std::map<int, int>> *coocMapAfter, std::map<int, std::map<int, int>> *coocMapEquals);
+    void execute(EquivalenceClass *eq, bool depthFirst);
 };
 
 

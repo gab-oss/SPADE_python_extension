@@ -3,13 +3,16 @@
 
 #include <vector>
 #include "Item.h"
+#include <iostream>
 
 class Pattern {
     std::vector<Item*> *elements = new std::vector<Item*>;
-    std::vector<bool> *appearingIn = new std::vector<bool>;
+    std::vector<bool> *appearingIn = new std::vector<bool>(0, false);
 
 public:
-    explicit Pattern(std::vector<Item*> *elements) : elements(elements) {}
+    explicit Pattern(std::vector<Item*> *elements) : elements(elements) {
+        appearingIn = new std::vector<bool>(elements->size(), false);
+    }
 
     bool isPrefix(Pattern *p) {
         bool output = false;
@@ -43,7 +46,7 @@ public:
     }
 
     Pattern *clonePattern(){
-        auto *elementsCopy = new std::vector<Item*>(*elements);
+        auto elementsCopy = new std::vector<Item*>(*elements);
         auto *clone = new Pattern(elementsCopy);
         return clone;
     }

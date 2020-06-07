@@ -26,7 +26,8 @@ public:
     void reduceDatabase(std::vector<Item*> *items);
 
 	int getAbsSupport(double relSupport) {
-		return (int)(sequences->size() * relSupport);
+		int sup = (int)(sequences->size() * relSupport);
+	    return sup < 1 ? 1 : sup;
 	}
 };
 

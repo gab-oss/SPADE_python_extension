@@ -17,7 +17,7 @@ void Spade::run(std::string filepath, double sup, bool depthFirst) {
 
     auto frequentPatternEnumeration = new FrequentPatternEnumeration(new CandidateGenerator(), db->getAbsSupport(sup));
     frequentPatternEnumeration->setFrequentPatterns(frequentItems->size());
-    frequentPatternEnumeration->execute(rootClass, depthFirst, nullptr, nullptr);
+    frequentPatternEnumeration->execute(rootClass, depthFirst);
 
 	auto *patterns = frequentPatternEnumeration->getFrequentPatterns();
 	frequentPatterns->insert(frequentPatterns->end(), patterns->begin(), patterns->end());
