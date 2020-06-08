@@ -7,7 +7,7 @@
 
 class FrequentPatternEnumeration {
     CandidateGenerator *candidateGenerator;
-    int minSupport;
+    double minSupport;
     int frequentPatternCount = 0;
     int joinCount = 0;
 	std::vector<Pattern *> *frequentPatterns = new std::vector<Pattern *>;
@@ -15,7 +15,7 @@ class FrequentPatternEnumeration {
     void insertClassByPrefix(EquivalenceClass *eq, EquivalenceClass *eqX, EquivalenceClass *eqY);
 
 public:
-    FrequentPatternEnumeration(CandidateGenerator *candidateGenerator, int minSupport) : candidateGenerator(
+    FrequentPatternEnumeration(CandidateGenerator *candidateGenerator, double minSupport) : candidateGenerator(
             candidateGenerator), minSupport(minSupport) {}
 
     void setFrequentPatterns(int frequentPatternCount) {

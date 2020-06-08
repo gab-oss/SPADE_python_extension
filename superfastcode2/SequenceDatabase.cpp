@@ -41,24 +41,39 @@ void SequenceDatabase::loadFile(std::string path, double minSupport) {
 															{2, new std::vector<int>({72})},
 															{3, new std::vector<int>({4,24,77})}
 		}));
+	addSequence("c", new std::map<long, std::vector<int>*>({ {1, new std::vector<int>({8,73,11})},
+															{2, new std::vector<int>({4,77})},
+															{3, new std::vector<int>({77,10})}
+		}));
 	//addSequence("c", new std::map<long, std::vector<int>*>({ {10, new std::vector<int>({3,1,4})}, 
 	//														{20, new std::vector<int>({2,5,4}) }}));
 
-    double support = minSupport * sequences->size();
-    if(support < 1) support = 1;
+    absSupport = minSupport * sequences->size();
+    if(absSupport < 1) absSupport = 1;
+
+    for(auto s : *sequences) std::cout << s.first;
+    std::cout<<std::endl;
 
     auto *itemsToRemove = new std::vector<Item*>;
     for(auto& pair : *frequentItems) {
-        if(pair.second->getIdList()->getSupport() < support) {
+        if(pair.second->getIdList()->getSupport() < absSupport) {
             itemsToRemove->push_back(pair.first);
+            for(auto s : *sequences) std::cout << s.first;
+            std::cout<<std::endl;
         } else {
             pair.second->getIdList()->setAppearingSequences(pair.second->getClassIdentifier());
+            for(auto s : *sequences) std::cout << s.first;
+            std::cout<<std::endl;
         }
     }
+    for(auto s : *sequences) std::cout << s.first;
+    std::cout<<std::endl;
     for(auto &item : *itemsToRemove) {
         frequentItems->erase(item);
     }
-
+    for(auto s : *sequences) std::cout << s.first;
+    std::cout<<std::endl;
+    //reduceDatabase(itemsToRemove);
 }
 
 void SequenceDatabase::addSequence(std::string seqId, std::map<long, std::vector<int>*> *integers) {

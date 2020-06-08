@@ -4,21 +4,45 @@
 void FrequentPatternEnumeration::execute(EquivalenceClass *eq, bool depthFirst) {
     bool anyPatternCreated = false;
     auto eqMembers = eq->getClassMembers();
-    for (auto it = eqMembers->crbegin(); it != eqMembers->crend(); ++it) {
-        for(auto el : *(*it)->getClassIdentifier()->getElements())
-            std::cout << el->getId() << ",";
-        std::cout << " | "<< "eq" <<std::endl;
+	for (auto it = eqMembers->crbegin(); it != eqMembers->crend(); ++it) {
+
+		std::cout << "start:";
+		for (auto m : *(*it)->getClassMembers()){
+			for (auto n : *m->getClassIdentifier()->getElements())
+				std::cout << n->getId() << ", ";
+		std::cout << " | ";
+		}
+		std::cout << std::endl;
 
         for (auto jt = it; jt != eqMembers->crend(); ++jt) {
             auto *extensions = candidateGenerator->generateCandidates((*it)->getClassIdentifier(), (*jt)->getClassIdentifier(), minSupport);
-            for (auto &extension : *extensions) {
-                for(auto el : *extension->getElements())
-                    std::cout << el->getId() << ",";
-                std::cout << " | ";
-                IdList *newIdList = candidateGenerator->join(extension, *it, *jt, minSupport);
 
-                std::cout << std::endl;
-                joinCount++;
+			std::cout << "gener:";
+			for (auto m : *(*it)->getClassMembers()) {
+				for (auto n : *m->getClassIdentifier()->getElements())
+					std::cout << n->getId() << ", ";
+				std::cout << " | ";
+			}
+			std::cout << std::endl;
+			
+			for (auto &extension : *extensions) {
+
+				std::cout << "extension:";
+				for (auto e : *extension->getElements())
+					std::cout << e->getId() << ", ";
+				std::cout << std::endl;
+
+                IdList *newIdList = candidateGenerator->join(extension, *it, *jt);
+				joinCount++;
+
+				std::cout << "join:";
+				for (auto m : *(*it)->getClassMembers()) {
+					for (auto n : *m->getClassIdentifier()->getElements())
+						std::cout << n->getId() << ", ";
+					std::cout << " | ";
+				}
+				std::cout << std::endl;
+
                 if(newIdList != nullptr && newIdList->getSupport() >= minSupport) {
                     anyPatternCreated = true;
                     newIdList->setAppearingSequences(extension);
@@ -26,17 +50,41 @@ void FrequentPatternEnumeration::execute(EquivalenceClass *eq, bool depthFirst) 
                     auto *newEq = new EquivalenceClass(extension);
                     newEq->setIdList(newIdList);
                     frequentPatternCount++;
-					std::cout << newIdList->getSupport() << std::endl;
 					insertClassByPrefix(newEq, *it, *jt);
+
+					std::cout << "insert:";
+					for (auto m : *(*it)->getClassMembers()) {
+						for (auto n : *m->getClassIdentifier()->getElements())
+							std::cout << n->getId() << ", ";
+						std::cout << " | ";
+					}
+					std::cout << std::endl;
                 }
             }
         }
 
         if (depthFirst) {
-            if (anyPatternCreated) {
+			std::cout << "end:";
+			for (auto m : *eq->getClassMembers()) {
+				for (auto n : *m->getClassIdentifier()->getElements())
+					std::cout << n->getId() << ", ";
+				std::cout << " | ";
+			}
+			std::cout << std::endl;
+
+			for (auto id : *(*it)->getClassIdentifier()->getElements())
+				std::cout << id->getId() << ", ";
+			std::cout << " => ";
+
+			eqMembers->erase(std::next(it).base());
+
+			for (auto id : *(*it)->getClassIdentifier()->getElements())
+				std::cout << id->getId() << ", ";
+			std::cout << std::endl << std::endl;
+
+			if (anyPatternCreated) {
                 execute(*it, depthFirst);
             }
-            eqMembers->erase(std::next(it).base());
         }
     }
 
@@ -50,13 +98,21 @@ void FrequentPatternEnumeration::execute(EquivalenceClass *eq, bool depthFirst) 
 
         eqMembers = nullptr;
     }
-
 }
 
 void FrequentPatternEnumeration::insertClassByPrefix(EquivalenceClass *eq, EquivalenceClass *eqX, EquivalenceClass *eqY) {
-    if(eqX->getClassIdentifier()->isPrefix(eq->getClassIdentifier())) {
+	std::cout << "new:";
+	for (auto n : *eq->getClassIdentifier()->getElements())
+		std::cout << n->getId() << ", ";
+	std::cout << " | ";
+	if(eqX->getClassIdentifier()->isPrefix(eq->getClassIdentifier())) {
+		for (auto n : *eq->getClassIdentifier()->getElements())
+			std::cout << n->getId() << ", ";
         eqX->addMember(eq);
     } else {
+		for (auto n : *eq->getClassIdentifier()->getElements())
+			std::cout << n->getId() << ", ";
         eqY->addMember(eq);
     }
+	std::cout << std::endl;
 }

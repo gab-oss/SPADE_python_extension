@@ -48,7 +48,7 @@ public:
         }
     }
 
-    IdList *join(IdList *idList, bool equals, int minSupport);
+    IdList *join(IdList *idList, bool equals);
 
     std::map<int, std::vector<int> *> *getEntries() { return entries; };
 };

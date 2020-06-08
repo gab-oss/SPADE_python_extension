@@ -16,9 +16,8 @@ public:
 
     bool isPrefix(Pattern *p) {
         bool output = false;
-        std::vector<Item*> *pElements = p->getElements();
-        pElements->pop_back();
-        if (pElements->back() == elements->back())
+        auto *pElements = p->getElements();
+        if (pElements->at(pElements->size()-2) == elements->back())
             output = true;
         return output;
     }

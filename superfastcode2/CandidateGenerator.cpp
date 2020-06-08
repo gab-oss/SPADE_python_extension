@@ -67,7 +67,7 @@ std::vector<Pattern *> *CandidateGenerator::generateCandidates(Pattern *p1, Patt
     return candidates;
 }
 
-IdList *CandidateGenerator::join(Pattern *extension, EquivalenceClass *e1, EquivalenceClass *e2, int minSupport) {
+IdList *CandidateGenerator::join(Pattern *extension, EquivalenceClass *e1, EquivalenceClass *e2) {
 
     Item *lastButOne = extension->getElements()->at(extension->getElements()->size() - 2);
     Item *last = extension->getLastElement();
@@ -75,13 +75,13 @@ IdList *CandidateGenerator::join(Pattern *extension, EquivalenceClass *e1, Equiv
 
     if (last->isEqualRelation()) {
         if (lastButOne != last)
-            return e1->getIdList()->join(e2->getIdList(), true, minSupport);
+            return e1->getIdList()->join(e2->getIdList(), true);
 
     } else {
         if (lastFromEq == last) {
-            return e1->getIdList()->join(e2->getIdList(), false, minSupport);
+            return e1->getIdList()->join(e2->getIdList(), false);
         } else {
-            return e2->getIdList()->join(e1->getIdList(), false, minSupport);
+            return e2->getIdList()->join(e1->getIdList(), false);
         }
     }
 

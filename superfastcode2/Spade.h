@@ -9,7 +9,7 @@
 class Spade {
     std::vector<EquivalenceClass *> *frequentItems;
 
-	std::vector<Pattern *> *frequentPatterns;
+	std::map<int, std::vector<Pattern *> *> *frequentPatterns;
 
     std::vector<Pattern *> *getPatterns(std::vector<EquivalenceClass *> *frequentItems);
 
@@ -18,10 +18,18 @@ class Spade {
     int joinCount;
 
 public:
+	Spade() {
+		frequentPatterns = new std::map<int, std::vector<Pattern *> *>;
+		for (int i = 1; i < 10; i++)
+			frequentPatterns->insert({ i, new std::vector<Pattern *> });
+	}
+
     void run(std::string filepath, double sup, bool depthFirst);
 
 	void addPatterns(std::vector<Pattern *> *patterns) {
-		frequentPatterns->insert(frequentPatterns->end(), patterns->begin(), patterns->end());
+		for (auto &pattern : *patterns) {
+			frequentPatterns->at(pattern->getElements()->size())->push_back(pattern);
+		}
 	}
 
     void printResults() {
@@ -40,9 +48,12 @@ public:
             }
             std::cout << ")" << std::endl << std::endl;
         }
-		for (auto &pattern : *frequentPatterns) {
-			for (auto &el : *pattern->getElements()) {
-				std::cout << el->getId() << ", ";
+		for (auto &patternList : *frequentPatterns) {
+			for (auto &pattern : *patternList.second) {
+				for (auto &el : *pattern->getElements()) {
+					std::cout << el->getId() << ", ";
+				}
+				std::cout << " | ";
 			}
 			std::cout << std::endl;
 		}

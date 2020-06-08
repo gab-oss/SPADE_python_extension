@@ -9,7 +9,7 @@ class SequenceDatabase {
 
     std::map<Item*, EquivalenceClass*> *frequentItems = new std::map<Item*, EquivalenceClass*>;
     std::map<std::string, std::map<long, std::vector<Item*>*>*> *sequences = new std::map<std::string, std::map<long, std::vector<Item*>*>*>;
-
+    double absSupport;
 public:
     void loadFile(std::string path, double minSupport);
 
@@ -25,9 +25,8 @@ public:
 
     void reduceDatabase(std::vector<Item*> *items);
 
-	int getAbsSupport(double relSupport) {
-		int sup = (int)(sequences->size() * relSupport);
-	    return sup < 1 ? 1 : sup;
+	double getAbsSupport() {
+	    return absSupport;
 	}
 };
 

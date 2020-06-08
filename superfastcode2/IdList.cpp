@@ -1,7 +1,7 @@
 #include "IdList.h"
 #include <iostream>
 
-IdList *IdList::join(IdList *idList, bool equals, int minSupport) {
+IdList *IdList::join(IdList *idList, bool equals) {
     auto *intersection = new std::map<int, std::vector<int>*>();
     auto *newSequences = new std::vector<bool>(idList->getSupport());
 
