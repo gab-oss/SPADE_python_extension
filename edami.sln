@@ -11,7 +11,23 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "spade", "superfastcode2\sup
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4A2D66F4-55BC-47AF-9F69-61B73162622A}"
 	ProjectSection(SolutionItems) = preProject
+		superfastcode2\CandidateGenerator.cpp = superfastcode2\CandidateGenerator.cpp
+		superfastcode2\CandidateGenerator.h = superfastcode2\CandidateGenerator.h
 		data\dress_sales.csv = data\dress_sales.csv
+		superfastcode2\EquivalenceClass.cpp = superfastcode2\EquivalenceClass.cpp
+		superfastcode2\EquivalenceClass.h = superfastcode2\EquivalenceClass.h
+		superfastcode2\FrequentPatternEnumeration.cpp = superfastcode2\FrequentPatternEnumeration.cpp
+		superfastcode2\FrequentPatternEnumeration.h = superfastcode2\FrequentPatternEnumeration.h
+		superfastcode2\IdList.cpp = superfastcode2\IdList.cpp
+		superfastcode2\IdList.h = superfastcode2\IdList.h
+		superfastcode2\Item.cpp = superfastcode2\Item.cpp
+		superfastcode2\Item.h = superfastcode2\Item.h
+		superfastcode2\Pattern.cpp = superfastcode2\Pattern.cpp
+		superfastcode2\Pattern.h = superfastcode2\Pattern.h
+		superfastcode2\SequenceDatabase.cpp = superfastcode2\SequenceDatabase.cpp
+		superfastcode2\SequenceDatabase.h = superfastcode2\SequenceDatabase.h
+		superfastcode2\Spade.cpp = superfastcode2\Spade.cpp
+		superfastcode2\Spade.h = superfastcode2\Spade.h
 	EndProjectSection
 EndProject
 Global
