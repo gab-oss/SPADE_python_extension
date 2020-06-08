@@ -79,10 +79,10 @@ def generated_files_as_sequences(generated_file_names, new_file_name, first_seq_
 
 
 if __name__ == "__main__":
-    data_dir = '../data/'
-    exp_data_dir = '../experimental_data/'
-    prepare_dress_sales_dataset()
-#    frequent_patterns_search('../experimental_data/processed_dress_sales', 0.6)
-    generated_files_as_sequences(
-        [data_dir + 'T_10_10_10_seq1.txt', data_dir + 'T_10_10_10_seq2.txt', data_dir + 'T_10_10_10_seq3.txt'],
-        exp_data_dir + 'T_10_10_10_sequences.txt')
+#    data_dir = '../data/'
+#    exp_data_dir = '../experimental_data/'
+#    prepare_dress_sales_dataset()
+#    generated_files_as_sequences(
+#        [data_dir + 'T_10_10_10_seq1.txt', data_dir + 'T_10_10_10_seq2.txt', data_dir + 'T_10_10_10_seq3.txt'],
+#        exp_data_dir + 'T_10_10_10_sequences.txt')
+    frequent_patterns_search('../data/test', 0.6, True)

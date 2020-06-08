@@ -21,7 +21,7 @@ public:
     }
 
     int getSupport() {
-        return sequences->size();
+        return std::count(sequences->begin(), sequences->end(), true);
     }
 
     void setAppearingSequences(Pattern *pattern) {

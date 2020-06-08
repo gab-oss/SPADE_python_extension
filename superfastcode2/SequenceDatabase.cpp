@@ -8,18 +8,17 @@
 void SequenceDatabase::loadFile(std::string path, double minSupport) {
 	// load file to a list of Event objects
 	// eventually should only contain algorithm's main function call with loading moved to SequenceDatabase > loadFile(...) (?)
-	/*
+	
 	std::string line;
 	std::ifstream myfile(path);
-	//std::list<Event*> events; // DANE
+	auto events = new std::map<int, std::map<int, std::vector<int>*>*>; 
 	if (myfile.is_open())
 	{
 		while (std::getline(myfile, line))
 		{
 			std::stringstream lineStream(line);
-			int seqId, numItems, item;
-			std::string eventId; // convertion to unix time (int)?
-			auto *items = new std::vector<int>;
+			int seqId, eventId, numItems, item;
+			auto items = new std::vector<int>;
 			lineStream >> seqId;
 			lineStream >> eventId;
 			lineStream >> numItems;
@@ -27,27 +26,31 @@ void SequenceDatabase::loadFile(std::string path, double minSupport) {
 				lineStream >> item;
 				items->push_back(item);
 			}
-			//events.push_back(new Event(seqId, eventId, items));
-			addSequence(eventId, items);
+			auto event = new std::vector<int>({ *items });
+			if (events->find(seqId) == events->end())
+				events->insert({ seqId, new std::map<int, std::vector<int>*>({{eventId, event}}) });
+			else
+				events->at(seqId)->insert({ eventId, event });
 		}
 		myfile.close();
 	}
 	else std::cout << "Unable to open file"; // should throw
-	*/
-	addSequence("a", new std::map<long, std::vector<int>*>({ {1, new std::vector<int>({8,37,42})},
+	
+	for(auto e : *events)
+		addSequence(e.first, e.second);
+	/*
+	addSequence(1, new std::map<int, std::vector<int>*>({ {1, new std::vector<int>({8,37,42})},
 															{2, new std::vector<int>({4,11,37,42})} 
 		}));
-	addSequence("b", new std::map<long, std::vector<int>*>({ {1, new std::vector<int>({10,73})},
+	addSequence(2, new std::map<int, std::vector<int>*>({ {1, new std::vector<int>({10,73})},
 															{2, new std::vector<int>({72})},
 															{3, new std::vector<int>({4,24,77})}
 		}));
-	addSequence("c", new std::map<long, std::vector<int>*>({ {1, new std::vector<int>({8,73,11})},
+	addSequence(3, new std::map<int, std::vector<int>*>({ {1, new std::vector<int>({8,73,11})},
 															{2, new std::vector<int>({4,77})},
 															{3, new std::vector<int>({77,10})}
-		}));
-	//addSequence("c", new std::map<long, std::vector<int>*>({ {10, new std::vector<int>({3,1,4})}, 
-	//														{20, new std::vector<int>({2,5,4}) }}));
-
+		}));*/
+	
     absSupport = minSupport * sequences->size();
     if(absSupport < 1) absSupport = 1;
 
@@ -73,11 +76,10 @@ void SequenceDatabase::loadFile(std::string path, double minSupport) {
     }
     for(auto s : *sequences) std::cout << s.first;
     std::cout<<std::endl;
-    //reduceDatabase(itemsToRemove);
 }
 
-void SequenceDatabase::addSequence(std::string seqId, std::map<long, std::vector<int>*> *integers) {
-    auto *sequence = new std::map<long, std::vector<Item *> *>;
+void SequenceDatabase::addSequence(int seqId, std::map<int, std::vector<int>*> *integers) {
+    auto *sequence = new std::map<int, std::vector<Item *> *>;
 
     for (auto &integer : *integers) {
 		long timestamp = integer.first;
@@ -104,25 +106,4 @@ void SequenceDatabase::addSequence(std::string seqId, std::map<long, std::vector
         timestamp++;
     }
 	sequences->insert({seqId, sequence });
-}
-
-void SequenceDatabase::reduceDatabase(std::vector<Item *> *items) {
-    for(auto &s : *sequences) {
-        auto itemset = s.second->begin();
-        while(itemset != s.second->end()) {
-            auto item = (*itemset).second->begin();
-            while(item != (*itemset).second->end()) {
-                if(std::find(items->begin(),items->end(),*item) == items->end()) {
-                    (*itemset).second->erase(item);
-                } else {
-                    item++;
-                }
-            }
-        }
-        if((*itemset).second->empty()) {
-            s.second->erase(itemset);
-        } else {
-            itemset++;
-        }
-    }
 }

@@ -8,12 +8,12 @@
 class SequenceDatabase {
 
     std::map<Item*, EquivalenceClass*> *frequentItems = new std::map<Item*, EquivalenceClass*>;
-    std::map<std::string, std::map<long, std::vector<Item*>*>*> *sequences = new std::map<std::string, std::map<long, std::vector<Item*>*>*>;
+    std::map<int, std::map<int, std::vector<Item*>*>*> *sequences = new std::map<int, std::map<int, std::vector<Item*>*>*>;
     double absSupport;
 public:
     void loadFile(std::string path, double minSupport);
 
-    void addSequence(std::string seqId, std::map<long, std::vector<int>*>* integers);
+    void addSequence(int seqId, std::map<int, std::vector<int>*>* integers);
 
     std::vector<EquivalenceClass*>* getFrequentItems() {
         auto* items = new std::vector<EquivalenceClass*>;

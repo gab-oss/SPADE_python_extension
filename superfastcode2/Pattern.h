@@ -14,13 +14,9 @@ public:
         appearingIn = new std::vector<bool>(elements->size(), false);
     }
 
-    bool isPrefix(Pattern *p) {
-        bool output = false;
-        auto *pElements = p->getElements();
-        if (pElements->at(pElements->size()-2) == elements->back())
-            output = true;
-        return output;
-    }
+	bool isPrefix(Pattern *p) {
+		return p->getElements()->at(p->getElements()->size() - 2) == elements->back();
+	}
 
     std::vector<Item*> *getElements() {
         return elements;
