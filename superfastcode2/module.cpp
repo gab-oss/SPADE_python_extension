@@ -8,7 +8,7 @@
 void frequent_patterns_search(std::string filepath, double minSupport, bool depthFirst) {
 	auto *spade = new Spade();
 	spade->run(filepath, minSupport, depthFirst);
-	spade->printResults();
+	//spade->printResults();
 }
 
 namespace py = pybind11;

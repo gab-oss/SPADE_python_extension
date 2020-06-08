@@ -2,6 +2,7 @@ import csv
 import os
 
 from spade import frequent_patterns_search
+from timeit import default_timer as timer
 
 #Your data needs to be in a particular format similar to the following:
 
@@ -58,12 +59,14 @@ def process_generated_file(generated_file_name, new_file_name, seq_id = 1):
                 item_no = splitted_line[1]
                 if transaction_no != last_transaction_no:
                     if loaded_event != []:
+                        loaded_event.insert(2, str(len(loaded_event) - 2))
                         new_processed_line = ' '.join(loaded_event) + '\n'
                         processed_file.write(new_processed_line)
                     last_transaction_no = transaction_no
                     loaded_event = [str(seq_id), str(transaction_no), str(item_no)]
                 else:
                     loaded_event.append(str(item_no))
+
 
 
 def generated_files_as_sequences(generated_file_names, new_file_name, first_seq_id = 1):
@@ -79,10 +82,14 @@ def generated_files_as_sequences(generated_file_names, new_file_name, first_seq_
 
 
 if __name__ == "__main__":
-#    data_dir = '../data/'
-#    exp_data_dir = '../experimental_data/'
-#    prepare_dress_sales_dataset()
-#    generated_files_as_sequences(
-#        [data_dir + 'T_10_10_10_seq1.txt', data_dir + 'T_10_10_10_seq2.txt', data_dir + 'T_10_10_10_seq3.txt'],
-#        exp_data_dir + 'T_10_10_10_sequences.txt')
-    frequent_patterns_search('../data/test', 0.6, True)
+    data_dir = '../data/'
+    #exp_data_dir = '../experimental_data/'
+    #prepare_dress_sales_dataset()
+    #generated_files_as_sequences(
+    #    [data_dir + 'T_0-006_3_0-015_a.txt', data_dir + 'T_0-006_2_0-014_b.txt', data_dir + 'T_0-006_2_0-010_c.txt'],
+    #    exp_data_dir + 'sequences.txt')
+    
+    start = timer()
+    frequent_patterns_search(data_dir + 'test', 0.6, False)
+    end = timer()
+    print(end - start)

@@ -36,6 +36,10 @@ public:
         return appearingIn;
     }
 
+	int getSupport() {
+		return std::count(appearingIn->begin(), appearingIn->end(), true);
+	}
+
     void add(Item* item) {
         elements->push_back(item);
     }

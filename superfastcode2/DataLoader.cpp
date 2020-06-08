@@ -1,14 +1,11 @@
-#include "SequenceDatabase.h"
+#include "DataLoader.h"
 #include "Event.h"
 #include <algorithm>
 #include <sstream>
 #include <fstream>
 #include <iostream>
 
-void SequenceDatabase::loadFile(std::string path, double minSupport) {
-	// load file to a list of Event objects
-	// eventually should only contain algorithm's main function call with loading moved to SequenceDatabase > loadFile(...) (?)
-	
+void DataLoader::loadFile(std::string path, double minSupport) {
 	std::string line;
 	std::ifstream myfile(path);
 	auto events = new std::map<int, std::map<int, std::vector<int>*>*>; 
@@ -38,47 +35,24 @@ void SequenceDatabase::loadFile(std::string path, double minSupport) {
 	
 	for(auto e : *events)
 		addSequence(e.first, e.second);
-	/*
-	addSequence(1, new std::map<int, std::vector<int>*>({ {1, new std::vector<int>({8,37,42})},
-															{2, new std::vector<int>({4,11,37,42})} 
-		}));
-	addSequence(2, new std::map<int, std::vector<int>*>({ {1, new std::vector<int>({10,73})},
-															{2, new std::vector<int>({72})},
-															{3, new std::vector<int>({4,24,77})}
-		}));
-	addSequence(3, new std::map<int, std::vector<int>*>({ {1, new std::vector<int>({8,73,11})},
-															{2, new std::vector<int>({4,77})},
-															{3, new std::vector<int>({77,10})}
-		}));*/
 	
     absSupport = minSupport * sequences->size();
     if(absSupport < 1) absSupport = 1;
-
-    for(auto s : *sequences) std::cout << s.first;
-    std::cout<<std::endl;
 
     auto *itemsToRemove = new std::vector<Item*>;
     for(auto& pair : *frequentItems) {
         if(pair.second->getIdList()->getSupport() < absSupport) {
             itemsToRemove->push_back(pair.first);
-            for(auto s : *sequences) std::cout << s.first;
-            std::cout<<std::endl;
         } else {
             pair.second->getIdList()->setAppearingSequences(pair.second->getClassIdentifier());
-            for(auto s : *sequences) std::cout << s.first;
-            std::cout<<std::endl;
         }
     }
-    for(auto s : *sequences) std::cout << s.first;
-    std::cout<<std::endl;
     for(auto &item : *itemsToRemove) {
         frequentItems->erase(item);
     }
-    for(auto s : *sequences) std::cout << s.first;
-    std::cout<<std::endl;
 }
 
-void SequenceDatabase::addSequence(int seqId, std::map<int, std::vector<int>*> *integers) {
+void DataLoader::addSequence(int seqId, std::map<int, std::vector<int>*> *integers) {
     auto *sequence = new std::map<int, std::vector<Item *> *>;
 
     for (auto &integer : *integers) {

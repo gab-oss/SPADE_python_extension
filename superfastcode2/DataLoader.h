@@ -5,7 +5,7 @@
 #include <vector>
 #include "EquivalenceClass.h"
 
-class SequenceDatabase {
+class DataLoader {
 
     std::map<Item*, EquivalenceClass*> *frequentItems = new std::map<Item*, EquivalenceClass*>;
     std::map<int, std::map<int, std::vector<Item*>*>*> *sequences = new std::map<int, std::map<int, std::vector<Item*>*>*>;

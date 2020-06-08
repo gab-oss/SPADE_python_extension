@@ -15,8 +15,6 @@ class Spade {
 
     int frequentPatternCount;
 
-    int joinCount;
-
 public:
 	Spade() {
 		frequentPatterns = new std::map<int, std::vector<Pattern *> *>;
@@ -33,27 +31,22 @@ public:
 	}
 
     void printResults() {
-        std::cout << "frequentPatternCount:" << frequentPatternCount << std::endl;
-        std::cout << "joinCount:" << joinCount << std::endl;
-        for(auto &item : *frequentItems) {
-            for(auto &el : *item->getClassIdentifier()->getElements()) {
-                std::cout << el->getId() << ", ";
-            }
-            std::cout << "sup:" << item->getIdList()->getSupport() << " (";
-            for(auto &entry : *item->getIdList()->getEntries()) {
-                std::cout << entry.first << " | ";
-                for(auto &id : *entry.second) {
-                    std::cout << id << ", ";
-                }
-            }
-            std::cout << ")" << std::endl << std::endl;
-        }
+        std::cout << "Number of frequent patterns: " << frequentPatternCount << std::endl;
+        
+		int i = 1;
 		for (auto &patternList : *frequentPatterns) {
+			std::cout << i++ << "-patterns: ";
 			for (auto &pattern : *patternList.second) {
-				for (auto &el : *pattern->getElements()) {
-					std::cout << el->getId() << ", ";
+				std::cout << "( ";
+				for (auto el : *pattern->getElements()) {
+					std::cout << el->getId();
+					if((el + 1) != *pattern->getElements()->end())
+						if((el+1)->isEqualRelation())
+							std::cout << ", ";
+						else
+							std::cout << " -> ";
 				}
-				std::cout << " | ";
+				std::cout << "), sup:" << pattern->getSupport() << " ";
 			}
 			std::cout << std::endl;
 		}

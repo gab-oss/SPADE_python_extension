@@ -24,13 +24,6 @@ IdList *IdList::join(IdList *idList, bool equals) {
             newSequences->at(entry.first) = true;
         }
     }
-	for (auto &i : *intersection) {
-		for (auto j : *i.second) {
-			std::cout << j << ",";
-		}
-		std::cout << " | ";
-	}
-	std::cout << std::endl;
 
     auto output = new IdList(intersection);
     output->sequences = newSequences;

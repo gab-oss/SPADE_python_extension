@@ -1,10 +1,10 @@
 #include "Spade.h"
 #include "EquivalenceClass.h"
 #include "FrequentPatternEnumeration.h"
-#include "SequenceDatabase.h"
+#include "DataLoader.h"
 
 void Spade::run(std::string filepath, double sup, bool depthFirst) {
-    auto *db = new SequenceDatabase();
+    auto *db = new DataLoader();
     db->loadFile(filepath, sup);
     frequentItems = db->getFrequentItems();
     auto *rootClass = new EquivalenceClass();
@@ -20,7 +20,6 @@ void Spade::run(std::string filepath, double sup, bool depthFirst) {
 	auto *patterns = frequentPatternEnumeration->getFrequentPatterns();
 	addPatterns(patterns);
     frequentPatternCount = frequentPatternEnumeration->getFrequentPatternCount();
-    joinCount = frequentPatternEnumeration->getJoinCount();
 }
 
 std::vector<Pattern*> *Spade::getPatterns(std::vector<EquivalenceClass*> *frequentItems) {
